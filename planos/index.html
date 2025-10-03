@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planos de Suporte - Arcadia</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --bg:#0a0e1a;
+      --card:#0b1220;
+      --bronze:#cd7f32;
+      --bronze-glow:rgba(205,127,50,0.4);
+      --silver:#c0c0c0;
+      --silver-glow:rgba(192,192,192,0.4);
+      --gold:#ffd700;
+      --gold-glow:rgba(255,215,0,0.4);
+      --diamond:#00d9ff;
+      --diamond-glow:rgba(0,217,255,0.4);
+      --green:#10b981;
+      --muted:#9aa4b2;
+      --white:#e6eef6;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      min-height:100vh;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+      background:radial-gradient(ellipse at top,#1a2332,#0a0e1a);
+      color:var(--white);
+      padding:20px;
+    }
+
+    @keyframes fadeInUp{
+      from{opacity:0;transform:translateY(30px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    @keyframes float{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-10px)}
+    }
+
+    @keyframes shimmer{
+      0%{background-position:200% center}
+      100%{background-position:-200% center}
+    }
+
+    .container{
+      max-width:1400px;
+      margin:0 auto;
+      animation:fadeInUp 0.8s ease-out;
+    }
+
+    .header{
+      text-align:center;
+      margin-bottom:50px;
+    }
+
+    .header h1{
+      font-size:42px;
+      margin-bottom:12px;
+      background:linear-gradient(135deg,var(--gold),var(--diamond));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      display:inline-block;
+    }
+
+    .header .icon{
+      font-size:48px;
+      margin-bottom:16px;
+      animation:float 3s ease-in-out infinite;
+      display:inline-block;
+    }
+
+    .header p{
+      color:var(--muted);
+      font-size:16px;
+      max-width:600px;
+      margin:0 auto;
+    }
+
+    .plans-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:24px;
+      margin-top:40px;
+    }
+
+    .plan-card{
+      background:rgba(255,255,255,0.03);
+      backdrop-filter:blur(20px);
+      border-radius:20px;
+      padding:32px 24px;
+      border:1px solid rgba(255,255,255,0.1);
+      position:relative;
+      overflow:hidden;
+      transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+      animation:fadeInUp 0.6s ease-out backwards;
+    }
+
+    .plan-card:nth-child(1){animation-delay:0.1s}
+    .plan-card:nth-child(2){animation-delay:0.2s}
+    .plan-card:nth-child(3){animation-delay:0.3s}
+    .plan-card:nth-child(4){animation-delay:0.4s}
+
+    .plan-card::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:4px;
+      background:linear-gradient(90deg,transparent,var(--plan-color),transparent);
+      background-size:200% 100%;
+      animation:shimmer 3s linear infinite;
+    }
+
+    .plan-card:hover{
+      transform:translateY(-10px) scale(1.02);
+      box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px var(--plan-glow);
+      border-color:var(--plan-color);
+    }
+
+    .plan-bronze{--plan-color:var(--bronze);--plan-glow:var(--bronze-glow)}
+    .plan-silver{--plan-color:var(--silver);--plan-glow:var(--silver-glow)}
+    .plan-gold{--plan-color:var(--gold);--plan-glow:var(--gold-glow)}
+    .plan-diamond{--plan-color:var(--diamond);--plan-glow:var(--diamond-glow)}
+
+    .plan-icon{
+      width:64px;
+      height:64px;
+      border-radius:16px;
+      background:linear-gradient(135deg,var(--plan-color),rgba(255,255,255,0.1));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:32px;
+      color:#fff;
+      margin:0 auto 20px;
+      box-shadow:0 8px 24px var(--plan-glow);
+      transition:all 0.3s;
+    }
+
+    .plan-card:hover .plan-icon{
+      transform:rotateY(360deg) scale(1.1);
+    }
+
+    .plan-name{
+      text-align:center;
+      font-size:26px;
+      font-weight:700;
+      color:var(--plan-color);
+      margin-bottom:12px;
+      text-shadow:0 0 20px var(--plan-glow);
+    }
+
+    .plan-price{
+      text-align:center;
+      font-size:36px;
+      font-weight:800;
+      color:var(--white);
+      margin-bottom:8px;
+    }
+
+    .plan-price span{
+      font-size:16px;
+      color:var(--muted);
+      font-weight:400;
+    }
+
+    .plan-features{
+      list-style:none;
+      margin-top:24px;
+      padding-top:24px;
+      border-top:1px solid rgba(255,255,255,0.1);
+    }
+
+    .plan-features li{
+      padding:12px 0 12px 36px;
+      position:relative;
+      font-size:14px;
+      line-height:1.6;
+      color:var(--white);
+      transition:all 0.3s;
+    }
+
+    .plan-features li:hover{
+      color:var(--plan-color);
+      padding-left:40px;
+    }
+
+    .plan-features li::before{
+      content:'✓';
+      position:absolute;
+      left:0;
+      top:12px;
+      width:24px;
+      height:24px;
+      background:rgba(255,255,255,0.05);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--plan-color);
+      font-weight:700;
+      border:2px solid var(--plan-color);
+      box-shadow:0 0 15px var(--plan-glow);
+    }
+
+    .cta-button{
+      width:100%;
+      margin-top:24px;
+      padding:14px 24px;
+      background:linear-gradient(135deg,var(--plan-color),rgba(255,255,255,0.1));
+      border:2px solid var(--plan-color);
+      border-radius:12px;
+      color:#fff;
+      font-weight:700;
+      font-size:15px;
+      cursor:pointer;
+      transition:all 0.3s;
+      box-shadow:0 4px 20px var(--plan-glow);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      text-decoration:none;
+    }
+
+    .cta-button:hover{
+      transform:translateY(-3px);
+      box-shadow:0 8px 30px var(--plan-glow);
+      background:var(--plan-color);
+    }
+
+    .badge{
+      position:absolute;
+      top:20px;
+      right:20px;
+      background:var(--plan-color);
+      color:#000;
+      padding:6px 12px;
+      border-radius:20px;
+      font-size:11px;
+      font-weight:700;
+      text-transform:uppercase;
+      box-shadow:0 4px 15px var(--plan-glow);
+      letter-spacing:0.5px;
+    }
+
+    .footer-note{
+      text-align:center;
+      margin-top:60px;
+      padding:24px;
+      background:rgba(255,255,255,0.03);
+      backdrop-filter:blur(10px);
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.1);
+    }
+
+    .footer-note p{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .footer-note strong{
+      color:var(--green);
+    }
+
+    @media (max-width:1200px){
+      .plans-grid{grid-template-columns:repeat(2,1fr)}
+    }
+
+    @media (max-width:768px){
+      body{padding:12px}
+      .header h1{font-size:32px}
+      .header .icon{font-size:36px}
+      .plans-grid{grid-template-columns:1fr;gap:20px}
+      .plan-card{padding:24px 20px}
+      .plan-name{font-size:22px}
+      .plan-price{font-size:30px}
+    }
+
+    @media (max-width:480px){
+      .header h1{font-size:26px}
+      .plan-icon{width:56px;height:56px;font-size:28px}
+      .plan-name{font-size:20px}
+      .plan-price{font-size:26px}
+      .plan-features li{font-size:13px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <div class="icon">
+        <i class="fas fa-gem"></i>
+      </div>
+      <h1><i class="fas fa-headset"></i> Planos Mensais de Suporte</h1>
+      <p>Escolha o plano ideal para manter seu projeto funcionando perfeitamente, com suporte contínuo e melhorias constantes.</p>
+    </div>
+
+    <div class="plans-grid">
+
+      <!-- Bronze -->
+      <div class="plan-card plan-bronze">
+          <span class="badge">Pra começar</span>
+        <div class="plan-icon">
+          <i class="fas fa-medal"></i>
+        </div>
+        <h2 class="plan-name">Bronze</h2>
+        <div class="plan-price">R$160<span>/mês</span></div>
+        <ul class="plan-features">
+          <li>Suporte básico 3/7 – 4h/dia</li>
+          <li>Correções simples</li>
+          <li>Monitoramento do site</li>
+          <li>1 ajuste mensal incluso</li>
+        </ul>
+
+      </div>
+
+      <!-- Prata -->
+      <div class="plan-card plan-silver">
+          <span class="badge">Custo Benefiío</span>
+        <div class="plan-icon">
+          <i class="fas fa-award"></i>
+        </div>
+        <h2 class="plan-name">Prata</h2>
+        <div class="plan-price">R$260<span>/mês</span></div>
+        <ul class="plan-features">
+          <li>Suporte básico 3/7 – 4h/dia</li>
+          <li>Correções + pequenas melhorias</li>
+          <li>Até 2 ajustes mensais inclusos</li>
+          <li>Monitoramento ativo</li>
+        </ul>
+
+      </div>
+
+      <!-- Gold -->
+      <div class="plan-card plan-gold">
+        <span class="badge">Popular</span>
+        <div class="plan-icon">
+          <i class="fas fa-crown"></i>
+        </div>
+        <h2 class="plan-name">Gold</h2>
+        <div class="plan-price">R$580<span>/mês</span></div>
+        <ul class="plan-features">
+          <li>Suporte avançado 5/7 – 4h/dia</li>
+          <li>Até 4 ajustes mensais</li>
+          <li>Melhorias de layout e performance</li>
+          <li>Prioridade no atendimento</li>
+          <li>Monitoramento constante</li>
+        </ul>
+
+      </div>
+
+      <!-- Diamante -->
+      <div class="plan-card plan-diamond">
+        <span class="badge">Premium</span>
+        <div class="plan-icon">
+          <i class="fas fa-gem"></i>
+        </div>
+        <h2 class="plan-name">Diamante</h2>
+        <div class="plan-price">R$1.250<span>/mês</span></div>
+        <ul class="plan-features">
+          <li>Suporte premium 7/7 – até 18h/dia</li>
+          <li>Alterações avançadas (layout, integrações, SEO)</li>
+          <li>Até 10 ajustes mensais inclusos</li>
+          <li>Consultoria mensal de estratégia digital</li>
+          <li>Prioridade máxima no atendimento</li>
+          <li>Monitoramento ativo e preventivo</li>
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="footer-note">
+      <p>
+        <i class="fas fa-info-circle" style="color:var(--green)"></i>
+        <strong>Nota:</strong> Todos os planos incluem backup automático e atualizações de segurança.
+        Ajustes extras fora do plano podem ser contratados sob demanda.
+        <strong>Cancele quando quiser</strong> – sem multas ou taxas de cancelamento.
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>

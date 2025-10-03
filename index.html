@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Arcadia — Apresentação E‑commerce</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --bg:#0a0e1a;
+      --card:#0b1220;
+      --green:#10b981;
+      --green-glow:rgba(16,185,129,0.4);
+      --orange:#f59e0b;
+      --orange-glow:rgba(245,158,11,0.4);
+      --red:#ef4444;
+      --red-glow:rgba(239,68,68,0.4);
+      --yellow:#fbbf24;
+      --yellow-glow:rgba(251,191,36,0.4);
+      --blue:#3b82f6;
+      --blue-glow:rgba(59,130,246,0.4);
+      --muted:#9aa4b2;
+      --white:#e6eef6;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;overflow:hidden}
+    body{background:radial-gradient(ellipse at top,#1a2332,#0a0e1a);color:var(--white);display:flex;align-items:center;justify-content:center;padding:10px}
+
+    @keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes glow{0%,100%{filter:drop-shadow(0 0 8px var(--glow-color))}50%{filter:drop-shadow(0 0 16px var(--glow-color))}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+    .presentation{
+      width:100%;
+      max-width:1200px;
+      height:90vh;
+      background:rgba(255,255,255,0.03);
+      backdrop-filter:blur(20px);
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,0.1);
+      box-shadow:0 20px 60px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.1);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      animation:slideIn 0.6s ease-out;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:16px 24px;
+      background:rgba(255,255,255,0.03);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    .brand{display:flex;gap:12px;align-items:center;min-width:200px}
+    .logo{
+      width:48px;
+      height:48px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--green),var(--blue));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:#fff;
+      font-size:24px;
+      box-shadow:0 4px 20px var(--green-glow);
+      animation:float 3s ease-in-out infinite;
+    }
+
+    h1{font-size:16px;margin:0;line-height:1.3}
+    small{color:var(--muted);font-size:11px}
+
+    .nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    button{
+      background:rgba(255,255,255,0.05);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.1);
+      color:var(--white);
+      padding:8px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      transition:all 0.3s;
+      font-size:13px;
+      white-space:nowrap;
+    }
+    button:hover{
+      background:rgba(255,255,255,0.1);
+      border-color:var(--green);
+      box-shadow:0 0 20px var(--green-glow);
+      transform:translateY(-2px);
+    }
+
+    main{
+      flex:1;
+      display:grid;
+      grid-template-columns:1fr 320px;
+      gap:16px;
+      padding:16px;
+      overflow:hidden;
+    }
+
+    .slide{
+      background:rgba(255,255,255,0.02);
+      backdrop-filter:blur(10px);
+      border-radius:16px;
+      padding:24px;
+      overflow-y:auto;
+      border:1px solid rgba(255,255,255,0.05);
+      animation:slideIn 0.5s ease-out;
+      scrollbar-width:thin;
+      scrollbar-color:var(--green) transparent;
+    }
+    .slide::-webkit-scrollbar{width:6px}
+    .slide::-webkit-scrollbar-track{background:transparent}
+    .slide::-webkit-scrollbar-thumb{background:var(--green);border-radius:10px}
+
+    .panel{
+      background:rgba(255,255,255,0.03);
+      backdrop-filter:blur(10px);
+      border-radius:16px;
+      padding:20px;
+      border:1px solid rgba(255,255,255,0.08);
+      overflow-y:auto;
+    }
+
+    footer{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 20px;
+      border-top:1px solid rgba(255,255,255,0.08);
+      font-size:11px;
+      color:var(--muted);
+      background:rgba(0,0,0,0.2);
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .title{
+      font-size:28px;
+      margin:0 0 12px;
+      background:linear-gradient(135deg,var(--green),var(--blue));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+
+    .subtitle{color:var(--muted);margin-bottom:20px;font-size:14px;line-height:1.6}
+
+    ul{padding-left:20px;line-height:1.8}
+    ul li{margin-bottom:8px}
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 12px;
+      background:rgba(16,185,129,0.15);
+      border-radius:20px;
+      color:var(--green);
+      font-weight:600;
+      font-size:12px;
+      border:1px solid var(--green);
+      box-shadow:0 0 15px var(--green-glow);
+    }
+
+    table{width:100%;border-collapse:collapse;margin-top:16px}
+    table td,table th{
+      padding:12px;
+      border-bottom:1px solid rgba(255,255,255,0.05);
+      font-size:13px;
+      text-align:left;
+    }
+    table th{color:var(--green);font-weight:600}
+
+    .price{
+      font-weight:800;
+      color:var(--green);
+      font-size:18px;
+      text-shadow:0 0 10px var(--green-glow);
+    }
+
+    .pros,.cons{display:flex;gap:10px;flex-direction:column}
+    .pro{
+      background:rgba(16,185,129,0.1);
+      color:#b9f7d0;
+      padding:12px 12px 12px 40px;
+      border-radius:12px;
+      border-left:3px solid var(--green);
+      position:relative;
+      transition:all 0.3s;
+    }
+    .pro:hover{
+      background:rgba(16,185,129,0.15);
+      box-shadow:0 0 20px var(--green-glow);
+      transform:translateX(5px);
+    }
+    .pro::before{
+      content:'✓';
+      position:absolute;
+      left:12px;
+      top:50%;
+      transform:translateY(-50%);
+      color:var(--green);
+      font-weight:bold;
+      font-size:18px;
+    }
+
+    .con{
+      background:rgba(239,68,68,0.1);
+      color:#ffb8b8;
+      padding:12px 12px 12px 40px;
+      border-radius:12px;
+      border-left:3px solid var(--red);
+      position:relative;
+      transition:all 0.3s;
+    }
+    .con:hover{
+      background:rgba(239,68,68,0.15);
+      box-shadow:0 0 20px var(--red-glow);
+      transform:translateX(5px);
+    }
+    .con::before{
+      content:'✗';
+      position:absolute;
+      left:12px;
+      top:50%;
+      transform:translateY(-50%);
+      color:var(--red);
+      font-weight:bold;
+      font-size:18px;
+    }
+
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:12px 24px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--green),var(--blue));
+      color:#fff;
+      font-weight:700;
+      text-decoration:none;
+      box-shadow:0 4px 20px var(--green-glow);
+      transition:all 0.3s;
+    }
+    .cta:hover{
+      transform:translateY(-3px);
+      box-shadow:0 6px 30px var(--green-glow);
+    }
+
+    .small{font-size:12px;color:var(--muted)}
+
+    .icon-box{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:40px;
+      height:40px;
+      border-radius:10px;
+      margin-right:8px;
+    }
+    .icon-green{background:rgba(16,185,129,0.15);color:var(--green);box-shadow:0 0 15px var(--green-glow)}
+    .icon-orange{background:rgba(245,158,11,0.15);color:var(--orange);box-shadow:0 0 15px var(--orange-glow)}
+    .icon-blue{background:rgba(59,130,246,0.15);color:var(--blue);box-shadow:0 0 15px var(--blue-glow)}
+    .icon-red{background:rgba(239,68,68,0.15);color:var(--red);box-shadow:0 0 15px var(--red-glow)}
+    .icon-yellow{background:rgba(251,191,36,0.15);color:var(--yellow);box-shadow:0 0 15px var(--yellow-glow)}
+
+    .feature-card{
+      background:rgba(255,255,255,0.03);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:12px;
+      padding:16px;
+      margin:10px 0;
+      transition:all 0.3s;
+    }
+    .feature-card:hover{
+      background:rgba(255,255,255,0.05);
+      transform:translateY(-3px);
+      box-shadow:0 5px 25px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width:1024px){
+      main{grid-template-columns:1fr 280px}
+      .title{font-size:24px}
+      h1{font-size:14px}
+    }
+
+    @media (max-width:768px){
+      body{padding:5px}
+      .presentation{height:95vh;border-radius:12px}
+      header{padding:12px 16px}
+      main{grid-template-columns:1fr;padding:12px;gap:12px}
+      .panel{order:-1;max-height:200px}
+      .slide{padding:16px}
+      .title{font-size:20px}
+      .nav{width:100%;justify-content:center}
+      .nav .small{display:none}
+      button{padding:6px 10px;font-size:12px}
+      h1{font-size:13px}
+      footer{font-size:10px;padding:10px 12px;justify-content:center;text-align:center}
+      footer > div:last-child{width:100%;text-align:center}
+    }
+
+    @media (max-width:480px){
+      .logo{width:40px;height:40px;font-size:20px}
+      .brand{flex-direction:column;gap:6px;align-items:flex-start}
+      h1{font-size:12px}
+      small{font-size:10px}
+      .title{font-size:18px}
+      table{font-size:11px}
+      table td,table th{padding:8px}
+      .feature-card{padding:12px}
+      .actions{width:100%}
+      .actions button{flex:1}
+    }
+  </style>
+</head>
+<body>
+  <div class="presentation">
+    <header>
+      <div class="brand">
+        <div class="logo">A</div>
+        <div>
+          <h1>Arcadia — Soluções em E‑commerce</h1>
+          <small>Sites, E‑commerce e Web Apps — Desenvolvimento & Suporte</small>
+        </div>
+      </div>
+      <div class="nav">
+        <div class="small">Navegação:</div>
+        <button id="prev">◀ Anterior</button>
+        <button id="next">Próximo ▶</button>
+        <div style="width:8px"></div>
+        <div class="actions">
+          <button id="start">Iniciar Apresentação</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="slide" id="slide-1">
+        <h2 class="title">Bem-vindo(a) — O que é a Arcadia</h2>
+        <p class="subtitle">Transformamos ideias em negócios digitais de alto impacto: criamos sites, e‑commerces e web apps, cuidando de tudo — desenvolvimento, hospedagem, SEO básico e suporte contínuo.</p>
+        <ul>
+          <li><strong>Missão:</strong> Entregar soluções digitais eficientes, escaláveis e com design pensado para conversão.</li>
+          <li><strong>Diferenciais:</strong> Agilidade, eficiência, criatividade, escalabilidade e consultoria contínua.</li>
+          <li><strong>Proposta:</strong> Ser seu parceiro para crescer no digital, começando pequeno e escalando conforme o negócio.</li>
+        </ul>
+      </section>
+
+      <aside class="panel">
+        <h3 class="small">Resumo rápido</h3>
+        <div style="margin-top:10px">
+          <div><span class="badge">E‑commerce</span> Destaque atual</div>
+          <div style="margin-top:8px"><strong>Configuração em plataforma</strong> — a partir de <span class="price">R$ 1.650</span></div>
+          <div style="margin-top:6px"><strong>Desenvolvimento do zero</strong> — a partir de <span class="price">R$ 2.100</span></div>
+        </div>
+        <hr style="border:none;margin:14px 0;border-top:1px dashed rgba(255,255,255,0.03)"/>
+        <div class="small">Garantia</div>
+        <ul class="small">
+          <li>Entrega dentro do prazo acordado.</li>
+          <li>Suporte gratuito: Sites 7 dias / E‑commerce & Web Apps 14 dias.</li>
+        </ul>
+      </aside>
+
+      <section class="slide" id="slide-2">
+        <h2 class="title">E‑commerce — Modelos de Trabalho</h2>
+        <p class="subtitle">2 caminhos para vender online: usar uma plataforma pronta ou desenvolver uma loja do zero (sob medida).</p>
+
+        <h3>1) Plataforma pronta (Nuvemshop, Shopify, VTEX...)</h3>
+        <p class="small">Configuração rápida e menor custo inicial — ideal para validar vendas.</p>
+        <table>
+          <tr><th>O que entregamos</th><td>Configuração da loja + cadastro de até 20 produtos (imagens, descrições, banners)</td></tr>
+          <tr><th>Preço inicial</th><td class="price">R$ 1.650 (a partir de)</td></tr>
+          <tr><th>Limitação</th><td>Cliente fornece preços, frete e promoções; nós não gerenciamos essas políticas</td></tr>
+        </table>
+
+        <h3 style="margin-top:14px">2) Desenvolvimento do zero (sob medida)</h3>
+        <p class="small">Loja 100% personalizada, integrações e controle total. Ideal para quem quer escalar e ter identidade própria.</p>
+        <table>
+          <tr><th>O que entregamos</th><td>Loja personalizada, integração com gateways, painel administrativo, relatórios e controle de negócio</td></tr>
+          <tr><th>Preço inicial</th><td class="price">R$ 2.100 (a partir de)</td></tr>
+          <tr><th>Observação</th><td>Custos extras: domínio, hospedagem, integrações específicas (sob consulta)</td></tr>
+        </table>
+      </section>
+
+      <section class="slide" id="slide-3">
+        <h2 class="title">Prós & Contras – Plataforma Pronta</h2>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:240px" class="pros">
+            <div class="pro">Implantação rápida — começar a vender em dias</div>
+            <div class="pro">Menor custo inicial</div>
+            <div class="pro">Checkout e integrações de pagamento já disponíveis</div>
+            <div class="pro">Assinatura da plataforma inclui hospedagem e atualizações</div>
+          </div>
+          <div style="flex:1;min-width:240px" class="cons">
+            <div class="con">Taxas sobre vendas cobradas pela plataforma</div>
+            <div class="con">Limitação de personalização visual e funcional</div>
+            <div class="con">Dependência da plataforma para recursos e performance</div>
+            <div class="con">Possíveis custos recorrentes de assinatura</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-4">
+        <h2 class="title">Prós & Contras – Desenvolvimento do Zero</h2>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:240px" class="pros">
+            <div class="pro">Total controle sobre layout, experiência e taxas</div>
+            <div class="pro">Escalabilidade e integrações sob medida (ERP, logística, ERPs)</div>
+            <div class="pro">Melhor otimização para SEO e performance</div>
+            <div class="pro">Sem taxas obrigatórias da plataforma (apenas gateways, se houver)</div>
+          </div>
+          <div style="flex:1;min-width:240px" class="cons">
+            <div class="con">Custo inicial e prazos maiores</div>
+            <div class="con">Necessidade de hospedagem, domínio e manutenção</div>
+            <div class="con">Exige definição clara de escopo para evitar retrabalho</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-5">
+        <h2 class="title">Custos & Taxas que o Cliente Deve Considerar</h2>
+        <ul>
+          <li>Taxas da plataforma (percentual por transação) — aplicável em plataformas prontas.</li>
+          <li>Taxas de gateway de pagamento (ex.: boleto, cartão, gateway externo).</li>
+          <li>Frete e logística — variáveis conforme transportadora e políticas.</li>
+          <li>Custos de hospedagem e domínio (para desenvolvimento do zero).</li>
+          <li>Integrações extras (ERP, logística, CRM) com custos adicionais.</li>
+        </ul>
+      </section>
+
+      <section class="slide" id="slide-6">
+        <h2 class="title">O que a Arcadia faz — Resumido</h2>
+        <ul>
+          <li>Configuração completa em plataforma (até 20 produtos) e entrega rápida.</li>
+          <li>Desenvolvimento de lojas sob medida com integrações e painel avançado.</li>
+          <li>Suporte pós‑entrega (7 dias para sites, 14 dias para e‑commerce/web apps).</li>
+          <li>Planos de manutenção mensais (Bronze → Diamante) para garantir operação contínua.</li>
+        </ul>
+      </section>
+
+      <section class="slide" id="slide-7">
+        <h2 class="title">Proposta de Valor & CTA</h2>
+        <p class="small">Recomendações rápidas para o cliente:</p>
+        <ul>
+          <li>Se quer validar vendas rápido: escolha <strong>Plataforma Pronta</strong> (R$ 1.650) — rápido e eficiente.</li>
+          <li>Se precisa de controle, marca forte e escalabilidade: escolha <strong>Desenvolvimento do Zero</strong> (R$ 2.100+) — estratégico a médio/longo prazo.</li>
+          <li>Oferecemos suporte e plano de evolução para migrar da plataforma pronta para solução personalizada quando quiser.</li>
+        </ul>
+        <p style="margin-top:12px">Quer começar? <a class="cta" href="mailto:contato@arcadia.example">Fale conosco</a></p>
+      </section>
+
+      <section class="slide" id="slide-8">
+        <h2 class="title">Próximos Passos</h2>
+        <ol>
+          <li>Escolher modelo (plataforma pronta ou desenvolvimento do zero).</li>
+          <li>Definir escopo inicial: produtos, formas de pagamento, políticas de frete.</li>
+          <li>Assinar proposta e iniciar configuração/desenvolvimento.</li>
+          <li>Receber suporte inicial e acompanhamento para evoluir a loja.</li>
+        </ol>
+        <p class="small">Obs: todos os prazos e valores finais são apresentados em proposta formal após análise de escopo.</p>
+      </section>
+
+    </main>
+
+    <footer>
+      <div>Arcadia — Soluções Digitais • contato.arcadia@gmail.com• +55 11 97714-5493</div>
+      <div class="small">Use as setas &lt; Anterior / Próximo &gt; ou os botões para navegar</div>
+    </footer>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let current = 0;
+    function show(i){
+      slides.forEach((s,idx)=> s.style.display = idx===i? 'block':'none');
+      current = i;
+    }
+    document.getElementById('prev').addEventListener('click', ()=> show(Math.max(0,current-1)) );
+    document.getElementById('next').addEventListener('click', ()=> show(Math.min(slides.length-1,current+1)) );
+    document.getElementById('start').addEventListener('click', ()=> show(0));
+    // keyboard
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowRight') show(Math.min(slides.length-1,current+1));
+      if(e.key==='ArrowLeft') show(Math.max(0,current-1));
+    });
+    // init
+    show(0);
+  </script>
+</body>
+</html>
